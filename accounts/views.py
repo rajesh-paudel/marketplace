@@ -9,7 +9,7 @@ from django.shortcuts import redirect,render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes,force_str
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
-
+from django.db import transaction
 from .forms import RegistrationForm,VendorForm
 
 User =get_user_model()
@@ -27,16 +27,17 @@ def send_activation_email(request,user):
 
 def register(request):
     if request.user.is_authenticated:
-        return redirect("profile")    
-    form=RegistrationForm(request.POST or None )
-    if request.method=="POST" and form.is_valid():
-        user=form.save(commit=False)
-        user.is_Active=False
-        user.save()
-        send_activation_email(request,user)
-        messages.success(request,"Account created. Check your email to activate it.")
+        return redirect("profile")
+    form = RegistrationForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        with transaction.atomic():
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            send_activation_email(request, user)
+        messages.success(request, "Account created. Check your email to activate it.")
         return redirect("login")
-    return render(request,"accounts/register.html",{"form":form})    
+    return render(request, "accounts/register.html", {"form": form})   
 
 def activate(request,uidb64,token):
     try:
