@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Hello, {{ user.username }}</h1>
+  <p>Email: {{ user.email }}</p>
+  {% if user.vendor %}
+    <p>Shop: <strong>{{ user.vendor.shop_name }}</strong>
+    ({% if user.vendor.is_approved %}approved{% else %}pending approval{% endif %})</p>
+  {% else %}
+    <p><a href="{% url 'become_vendor' %}">Become a vendor</a></p>
+  {% endif %}
+{% endblock %}

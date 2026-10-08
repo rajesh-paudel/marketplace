@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+  {% include "partials/form.html" with title="Log in" button="Log in" %}
+  <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+{% endblock %}

@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+  {% include "partials/form.html" with title="Create account" button="Register" %}
+  <p>Already registered? <a href="{% url 'login' %}">Log in</a></p>
+{% endblock %}

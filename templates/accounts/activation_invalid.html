@@ -1,0 +1,7 @@
+{% extends "base.html" %} {% block content %}
+<h1>Activation failed</h1>
+<p>
+  The link is invalid or has expired.
+  <a href="{% url 'register' %}">Register again</a>.
+</p>
+{% endblock %}

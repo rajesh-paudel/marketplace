@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Marketplace{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    nav { display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; }
+    nav form { display: inline; }
+    .msg { padding: .6rem 1rem; background: #e8f4ea; border-radius: 6px; margin-bottom: 1rem; }
+    input { padding: .4rem; margin: .2rem 0 .8rem; }
+    .errorlist { color: #b00020; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'home' %}"><strong>Marketplace</strong></a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'profile' %}">Profile</a>
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button>Log out</button></form>
+    {% else %}
+      <a href="{% url 'login' %}">Log in</a>
+      <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+  </nav>
+  {% for message in messages %}<div class="msg">{{ message }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</body>
+</html>
